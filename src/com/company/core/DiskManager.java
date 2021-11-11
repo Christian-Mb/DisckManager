@@ -10,7 +10,7 @@ public class DiskManager {
     private DBPageId dBpageId;
 
     public DiskManager() {
-    dBpageId = new DBPageId();
+        dBpageId = new DBPageId();
 
     }
 
@@ -56,9 +56,9 @@ public class DiskManager {
 
             int pageIdx = (int) (file.length() / DBParams.pageSize);
 
-            PageId pageId = dBpageId.getPageIdList().get(pageIdx-1);
+            id = new PageId(fichList.length, pageIdx);
 
-            this.WritePage(pageId, new byte[DBParams.pageSize*pageIdx]);
+            this.WritePage(id, new byte[DBParams.pageSize * pageIdx]);
         }
 
         return id;
@@ -71,7 +71,8 @@ public class DiskManager {
             File diskFile = new File(DBParams.DBPath + "\\F" + pageId.getFileIdx() + ".df");
             disk = new RandomAccessFile(diskFile, "rw");
             disk.seek((long) (pageId.getPageIdX()) * DBParams.maxPagesPerFile);
-            System.out.println(disk.readByte());;
+            System.out.println(disk.readByte());
+            ;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -89,8 +90,8 @@ public class DiskManager {
         RandomAccessFile disk = null;
         try {
             File diskFile = new File(DBParams.DBPath + "\\F" + pageId.getFileIdx() + ".df");
-            if(diskFile.createNewFile()){
-                System.out.println("New file created: "+diskFile.getName());
+            if (diskFile.createNewFile()) {
+                System.out.println("New file created: " + diskFile.getName());
             }
             disk = new RandomAccessFile(diskFile, "rw");
             disk.seek((long) (pageId.getPageIdX()) * DBParams.pageSize);
